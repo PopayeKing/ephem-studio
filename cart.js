@@ -216,7 +216,11 @@
       money(cart.cost?.totalAmount?.amount, cart.cost?.totalAmount?.currencyCode);
 
     const checkout = document.querySelector('#ephem-cart-checkout');
-    checkout.href = cart.checkoutUrl || '#';
+    const checkoutUrl = cart.checkoutUrl || '#';
+
+checkout.href = checkoutUrl.startsWith('/')
+  ? `https://${getConfig().domain}${checkoutUrl}`
+  : checkoutUrl;
 
     footer.hidden = false;
     setCartCount(cart.totalQuantity || 0);
