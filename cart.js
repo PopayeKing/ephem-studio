@@ -218,10 +218,22 @@
     const checkout = document.querySelector('#ephem-cart-checkout');
     const checkoutUrl = cart.checkoutUrl || '#';
 
-checkout.href = checkoutUrl.startsWith('/')
-  ? `https://${getConfig().domain}${checkoutUrl}`
-  : checkoutUrl;
+try {
+  const url = new URL(
+    checkoutUrl,
+    `https://${getConfig().domain}`
+  );
 
+  if (url.pathname.startsWith('/cart/c/')) {
+    url.protocol = 'https:';
+    url.hostname = getConfig().domain;
+  }
+
+  checkout.href = url.toString();
+} catch (error) {
+  console.error('EPHEM / Invalid checkout URL:', error);
+  checkout.href = '#';
+}
     footer.hidden = false;
     setCartCount(cart.totalQuantity || 0);
   }
