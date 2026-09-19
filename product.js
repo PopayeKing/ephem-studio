@@ -668,6 +668,41 @@ updateOpenGraph('og:title', document.title);
 updateOpenGraph('og:description', description.slice(0, 160));
 updateOpenGraph('og:url', window.location.href.split('#')[0]);
 
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": data.product.title,
+  "description": description,
+  "brand": {
+    "@type": "Brand",
+    "name": "EPHEM"
+  },
+  "image": data.product.images.nodes.map(image => image.url),
+  "offers": {
+    "@type": "Offer",
+    "url": window.location.href.split('#')[0],
+    "priceCurrency": data.product.priceRange.minVariantPrice.currencyCode,
+    "price": data.product.priceRange.minVariantPrice.amount,
+    "availability": data.product.variants.nodes.some(
+      variant => variant.availableForSale
+    )
+      ? "https://schema.org/InStock"
+      : "https://schema.org/OutOfStock"
+  }
+};
+
+let schemaScript = document.querySelector(
+  'script[type="application/ld+json"]'
+);
+
+if (!schemaScript) {
+  schemaScript = document.createElement('script');
+  schemaScript.type = 'application/ld+json';
+  document.head.appendChild(schemaScript);
+}
+
+schemaScript.textContent = JSON.stringify(productSchema);
+
 renderProduct(data.product);
 }
 
