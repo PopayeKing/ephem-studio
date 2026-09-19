@@ -408,3 +408,24 @@ img{max-width:100%;height:auto;display:block}
     text-align: left;
   }
 }
+
+/* Autoría del sitio */
+.footer-credit {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: rgba(0, 0, 0, 0.45);
+  text-align: left;
+}
+
+.footer-credit span {
+  color: rgba(0, 0, 0, 0.75);
+  font-weight: 500;
+}
