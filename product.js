@@ -619,9 +619,56 @@ async function loadProduct() {
     throw new Error('No encontramos este producto.');
   }
 
-  document.title = `EPHEM — ${data.product.title}`;
+  document.title = `${data.product.title} | EPHEM — Ropa mexicana`;
 
-  renderProduct(data.product);
+const description = data.product.description?.trim()
+  || `Descubre ${data.product.title} de EPHEM, marca mexicana de ropa independiente. Explora nuestros diseños y variantes disponibles.`;
+
+const setMeta = (selector, attribute, value) => {
+  let element = document.querySelector(selector);
+
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attribute, selector.includes('property=') ? selector.split('"')[1] : selector.split('"')[1]);
+    document.head.appendChild(element);
+  }
+
+  element.setAttribute('content', value);
+};
+
+document.querySelector('meta[name="description"]')?.setAttribute(
+  'content',
+  description.slice(0, 160)
+);
+
+let canonical = document.querySelector('link[rel="canonical"]');
+
+if (!canonical) {
+  canonical = document.createElement('link');
+  canonical.rel = 'canonical';
+  document.head.appendChild(canonical);
+}
+
+canonical.href = window.location.href.split('#')[0];
+
+const updateOpenGraph = (property, content) => {
+  let meta = document.querySelector(`meta[property="${property}"]`);
+
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('property', property);
+    document.head.appendChild(meta);
+  }
+
+  meta.setAttribute('content', content);
+};
+
+updateOpenGraph('og:type', 'product');
+updateOpenGraph('og:title', document.title);
+updateOpenGraph('og:description', description.slice(0, 160));
+updateOpenGraph('og:url', window.location.href.split('#')[0]);
+
+renderProduct(data.product);
 }
 
 loadProduct().catch((error) => {
