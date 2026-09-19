@@ -413,7 +413,7 @@ img{max-width:100%;height:auto;display:block}
 .footer-credit {
   margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid var(--cream);
 
   font-family: Helvetica, Arial, sans-serif;
   font-size: 10px;
@@ -421,7 +421,7 @@ img{max-width:100%;height:auto;display:block}
   letter-spacing: 0.08em;
   text-transform: uppercase;
 
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--cream);
   text-align: left;
 }
 
